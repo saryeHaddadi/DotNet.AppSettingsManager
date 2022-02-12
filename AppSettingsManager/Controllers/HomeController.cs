@@ -10,12 +10,14 @@ public class HomeController : Controller
 	private readonly IConfiguration _config; // 1. IConfiguration in the Controller
 	private readonly TwilioSettings _twilioSettings; //3. Binding a Class to a Settings section(Controler)
 	private readonly IOptions<TwilioSettings> _twilioOptions; // 4.A) Binding a Class to a Settings section (Denpendecy Injection - IOptions)
-	private readonly TwilioSettings _twilioSettings_di;
+	private readonly TwilioSettings _twilioSettings_di; // 4.B) & 4.C) Denpendecy Injection
+	private readonly SocialLoginSettings _socialLoginSettings;
 
 	public HomeController(ILogger<HomeController> logger,
 		IConfiguration config, // 1. IConfiguration in the Controller
 		IOptions<TwilioSettings> twilioOptions, // 4.A) Binding a Class to a Settings section (Denpendecy Injection - IOptions)
-		TwilioSettings twilioSettings_di // 4.B) Binding a Class to a Settings section (Denpendecy Injection)
+		TwilioSettings twilioSettings_di, // 4.B) & 4.C) Binding a Class to a Settings section (Denpendecy Injection)
+		SocialLoginSettings socialLoginSettings
 		)
 	{
 		_logger = logger;
@@ -30,8 +32,12 @@ public class HomeController : Controller
 		// 4.A) Binding a Class to a Settings section (Denpendecy Injection - IOptions)
 		_twilioOptions = twilioOptions;
 
-		// 4.B) Binding a Class to a Settings section (Denpendecy Injection)
+		// 4.B) & 4.C) Binding a Class to a Settings section (Denpendecy Injection)
 		_twilioSettings_di = twilioSettings_di;
+
+		// More Complexe example
+		_socialLoginSettings = socialLoginSettings;
+
 	}
 
 	public IActionResult Index()
@@ -56,10 +62,16 @@ public class HomeController : Controller
 		ViewBag.TwilioAccountSid_di_opt = _twilioOptions.Value.AccountSid;
 		ViewBag.TwilioPhoneNumber_di_opt = _twilioOptions.Value.PhoneNumber;
 
-		// 4.B) Binding a Class to a Settings section (Denpendecy Injection)
+		// 4.B) Binding a Class to a Settings section (Denpendecy Injection - Startup.cs)
+		// 4.C) Binding a Class to a Settings section (Denpendecy Injection - extention method)
 		ViewBag.TwilioAuthToken_di = _twilioSettings_di.AuthToken;
 		ViewBag.TwilioAccountSid_di = _twilioSettings_di.AccountSid;
 		ViewBag.TwilioPhoneNumber_di = _twilioSettings_di.PhoneNumber;
+
+		// More Complexe example
+		ViewBag.FacebookKey = _socialLoginSettings.FacebookSettings.Key;
+		ViewBag.GoogleKey = _socialLoginSettings.GoogleSettings.Key;
+
 
 		return View();
 	}

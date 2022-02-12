@@ -17,7 +17,7 @@ builder.Services.Configure<TwilioSettings>(builder.Configuration.GetSection("Twi
 
 // 4.C) Dependecy Injection, binding in an extention method
 builder.AddConfiguration<TwilioSettings>("Twilio");
-
+builder.AddConfiguration<SocialLoginSettings>("SocialLoginSettings");
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
