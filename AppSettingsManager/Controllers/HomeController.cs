@@ -72,6 +72,8 @@ public class HomeController : Controller
 		ViewBag.FacebookKey = _socialLoginSettings.FacebookSettings.Key;
 		ViewBag.GoogleKey = _socialLoginSettings.GoogleSettings.Key;
 
+		// Special case: ConnectionStrings
+		ViewBag.ConnectionString = _config.GetConnectionString("AppDb");
 
 		return View();
 	}
