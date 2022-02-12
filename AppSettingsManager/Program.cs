@@ -8,7 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // 4.A) Binding a Class to a Settings section (Denpendecy Injection - IOptions)
+// Then, this can either be injected inside a controller, or inside a view.
 builder.Services.Configure<TwilioSettings>(builder.Configuration.GetSection("Twilio"));
+builder.Services.Configure<SocialLoginSettings>(builder.Configuration.GetSection("SocialLoginSettings"));
+
 
 // 4.B) Dependecy Injection, binding in Startup.cs
 //var twilioSettings = new TwilioSettings();
