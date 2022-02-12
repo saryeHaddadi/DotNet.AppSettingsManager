@@ -1,8 +1,18 @@
+using AppSettingsManager.Models;
+using Microsoft.Extensions.Options;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// 4.A) Binding a Class to a Settings section (Denpendecy Injection - IOptions)
+builder.Services.Configure<TwilioSettings>(builder.Configuration.GetSection("Twilio"));
+
+// 4.B) Binding a Class to a Settings section (Denpendecy Injection)
+var twilioSettings = new TwilioSettings();
+new ConfigureFromConfigurationOptions<TwilioSettings>(builder.Configuration.GetSection("Twilio")).Configure(twilioSettings);
+builder.Services.AddSingleton(twilioSettings);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

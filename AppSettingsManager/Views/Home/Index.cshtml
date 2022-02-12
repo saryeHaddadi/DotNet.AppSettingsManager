@@ -1,6 +1,4 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@inject Microsoft.Extensions.Configuration.IConfiguration config
 
 <div>
     <div class="row mb-2">
@@ -13,15 +11,54 @@
             </div>
         </div>
 
-        <div class="row mb-2">
-            <div class="col-md-6">
-                <div class="card flex-md-row mb-4 box-shadow h-md-250">
-                    <div class="card-body d-flex flex-column align-items-start">
-                        <strong class="d-inline-block mb-2 text-primary">TwilioAuthToken</strong>
-                        <div class="mb-1 text-muted">@ViewBag.TwilioAuthToken</div>
-                            <strong class="d-inline-block mb-2 text-primary">TwilioAccountSid</strong>
-                            <div class="mb-1 text-muted">@ViewBag.TwilioAccountSid</div>
-                    </div>
+        <div class="col-md-6">
+            <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                <div class="card-body d-flex flex-column align-items-start">
+                    <strong class="d-inline-block mb-2 text-primary">BottomLevelSetting</strong>
+                    <div class="mb-1 text-muted">@ViewBag.BottomLevelSetting_c</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                <div class="card-body d-flex flex-column align-items-start">
+                    <strong class="d-inline-block mb-2 text-primary">Twilio from Controller</strong>
+                    <div class="mb-1 text-muted">@ViewBag.TwilioAuthToken</div>
+                    <div class="mb-1 text-muted">@ViewBag.TwilioAccountSid</div>
+                    <div class="mb-1 text-muted">@ViewBag.TwilioPhoneNumber</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                <div class="card-body d-flex flex-column align-items-start">
+                    <strong class="d-inline-block mb-2 text-primary">Twilio injected into the View</strong>
+                    <div class="mb-1 text-muted">@config.GetSection("Twilio:AuthToken").Value</div>
+                    <div class="mb-1 text-muted">@config.GetSection("Twilio:AccountSid").Value</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                <div class="card-body d-flex flex-column align-items-start">
+                    <strong class="d-inline-block mb-2 text-primary">Twilio from DI (IOptions)</strong>
+                    <div class="mb-1 text-muted">@ViewBag.TwilioAuthToken_di_opt</div>
+                    <div class="mb-1 text-muted">@ViewBag.TwilioAccountSid_di_opt</div>
+                    <div class="mb-1 text-muted">@ViewBag.TwilioPhoneNumber_di_opt</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                <div class="card-body d-flex flex-column align-items-start">
+                    <strong class="d-inline-block mb-2 text-primary">Twilio from DI</strong>
+                    <div class="mb-1 text-muted">@ViewBag.TwilioAuthToken_di</div>
+                    <div class="mb-1 text-muted">@ViewBag.TwilioAccountSid_di</div>
+                    <div class="mb-1 text-muted">@ViewBag.TwilioPhoneNumber_di</div>
                 </div>
             </div>
         </div>
