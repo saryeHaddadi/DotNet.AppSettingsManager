@@ -1,8 +1,30 @@
 using AppSettingsManager;
 using AppSettingsManager.Models;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
+
+/// <summary>
+/// Changing the default source variables hierarchy order. Not recommended to chagne the default order.
+/// But you can use it to ADD a new source (ex: custom Json file).
+/// </summary>
+//builder.Host.ConfigureAppConfiguration(options =>
+//{
+//	options.Sources.Clear();
+//	options.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+//	options.AddJsonFile($"appsettings.{options.HostEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+//	options.AddJsonFile("customJson.json", optional: true, reloadOnChange: true); // Custom Json. Should appear before user secrets.
+//	if (options.HostEnvironment.IsDevelopment())
+//	{
+//		options.AddUserSecrets<Program>();
+//	}
+//	options.AddEnvironmentVariables();
+//	options.AddCommandLine(args);
+//});
+
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
