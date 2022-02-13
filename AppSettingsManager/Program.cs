@@ -10,20 +10,31 @@ var builder = WebApplication.CreateBuilder(args);
 /// Changing the default source variables hierarchy order. Not recommended to chagne the default order.
 /// But you can use it to ADD a new source (ex: custom Json file).
 /// </summary>
-//builder.Host.ConfigureAppConfiguration(options =>
-//{
-//	options.Sources.Clear();
-//	options.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-//	options.AddJsonFile($"appsettings.{options.HostEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true);
-//	options.AddJsonFile("customJson.json", optional: true, reloadOnChange: true); // Custom Json. Should appear before user secrets.
-//	if (options.HostEnvironment.IsDevelopment())
-//	{
-//		options.AddUserSecrets<Program>();
-//	}
-//	options.AddEnvironmentVariables();
-//	options.AddCommandLine(args);
-//});
+builder.Host.ConfigureAppConfiguration(options =>
+{
+	options.Sources.Clear();
+	options.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+	options.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+	options.AddJsonFile("customJson.json", optional: true, reloadOnChange: true); // Custom Json. Should appear before user secrets.
+	if (builder.Environment.IsDevelopment())
+	{
+		options.AddUserSecrets<Program>();
+	}
+	options.AddEnvironmentVariables();
+	options.AddCommandLine(args);
+});
 
+/// <summary>
+/// Integration with Azure KeyVault
+/// </summary>
+//var buildConfig = builder.Build();
+//if (!builder.Environment.IsDevelopment())
+//{
+//	builder.Host.ConfigureAppConfiguration(options =>
+//	{
+//		options.AddAzureKeyVault(buildConfig.Configuration["KeyVaultUri"]);
+//	});
+//}
 
 
 // Add services to the container.
