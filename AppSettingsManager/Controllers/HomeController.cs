@@ -44,6 +44,7 @@ public class HomeController : Controller
 	{
 		// 1.A) IConfiguration in the Controller: One value
 		ViewBag.SendGridKey = _config.GetValue<string>("SendGridKey");
+		//ViewBag.SendGridKey = _config["SendGridKey"]; // This works also
 
 		// 1.B) IConfiguration in the Controller: Multiple value
 		ViewBag.TwilioAuthToken = _config.GetValue<string>("Twilio:AuthToken");

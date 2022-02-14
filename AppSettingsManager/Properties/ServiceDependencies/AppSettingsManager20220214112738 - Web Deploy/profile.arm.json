@@ -21,7 +21,7 @@
     },
     "resourceName": {
       "type": "string",
-      "defaultValue": "AppSettingsManager20220213143212",
+      "defaultValue": "AppSettingsManager20220214112738",
       "metadata": {
         "description": "Name of the main resource to be created by this template."
       }

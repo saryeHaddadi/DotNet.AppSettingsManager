@@ -16,7 +16,8 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "SendGridKey": "Secret in from environmentVariables BBBBBB",
-        "Twilio__PhoneNumber": "+123 PhoneNumber from environmentVariables"
+        "Twilio__PhoneNumber": "+123 PhoneNumber from environmentVariables",
+        "AZURE_TENANT_ID": "1045f31b-0531-40ec-8fd9-a88f9a13aaec",
       }
     },
     "IIS Express": {

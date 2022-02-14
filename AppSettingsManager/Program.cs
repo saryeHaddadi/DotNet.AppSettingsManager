@@ -3,6 +3,7 @@ using AppSettingsManager.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Azure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,29 +11,31 @@ var builder = WebApplication.CreateBuilder(args);
 /// Changing the default source variables hierarchy order. Not recommended to chagne the default order.
 /// But you can use it to ADD a new source (ex: custom Json file).
 /// </summary>
-builder.Host.ConfigureAppConfiguration(options =>
+builder.Host.ConfigureAppConfiguration(configDelegate =>
 {
-	options.Sources.Clear();
-	options.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-	options.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
-	options.AddJsonFile("customJson.json", optional: true, reloadOnChange: true); // Custom Json. Should appear before user secrets.
+	configDelegate.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+	configDelegate.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+	configDelegate.AddJsonFile("customJson.json", optional: true, reloadOnChange: true); // Custom Json. Should appear before user secrets.
 	if (builder.Environment.IsDevelopment())
 	{
-		options.AddUserSecrets<Program>();
+		configDelegate.AddUserSecrets<Program>();
 	}
-	options.AddEnvironmentVariables();
-	options.AddCommandLine(args);
+	configDelegate.AddEnvironmentVariables();
+	configDelegate.AddCommandLine(args);
+
+	var config = configDelegate.Build();
+	configDelegate.AddAzureKeyVault(new Uri(config["KeyVaultUri"]), new DefaultAzureCredential());
 });
 
 /// <summary>
 /// Integration with Azure KeyVault
 /// </summary>
-//var buildConfig = builder.Build();
 //if (!builder.Environment.IsDevelopment())
 //{
+//	// Not needed, kept just to show an example of "not IsDevelopment()"
 //	builder.Host.ConfigureAppConfiguration(options =>
 //	{
-//		options.AddAzureKeyVault(buildConfig.Configuration["KeyVaultUri"]);
+//		options.AddAzureKeyVault(new Uri("https://sarye-keyvault.vault.azure.net/"), new DefaultAzureCredential());
 //	});
 //}
 
